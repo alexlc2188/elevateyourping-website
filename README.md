@@ -1,42 +1,26 @@
-yarThis is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+ElevateYourPing
 
-## Getting Started
+A table tennis training platform providing a structured library of drills and coaching content, shipped across web, iOS, and Android to 20+ beta users over a 14-month build.
 
-First, run npm install then
+Overview
 
-run the development server:
+ElevateYourPing gives players a browsable library of training drills and coaching content, with accounts, [subscriptions/payments if live], and video-based drill content.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Frontend: Next.js, React, TypeScript, Tailwind CSS
+Data: Prisma, MongoDB
+Auth: NextAuth (Google OAuth)
+Payments: Stripe
+Video: Cloudflare Stream / HLS
+Storage: AWS S3
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+My Contribution
 
-To learn more about Next.js, take a look at the following resources:
+I built the frontend UI and structured the MDX-based drills content system, and led product direction and roadmap across the build. Backend infrastructure — authentication, payments, and video pipeline — was built by my co-founders.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Built By
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-Visit url: http://localhost:3000/coaching-review/34suyuiyfuiy123
-
-if the id after coaching-review/ is not found in our fake database, it will modify the UI to show an error.
+Co-founded and built with Sebastien Montibeller and Jerome.
