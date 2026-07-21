@@ -1,0 +1,87 @@
+enum MatchPaymentStatus {
+    PENDING // Payment not initiated or waiting for completion
+    PURCHASED // Payment successful
+    FAILED // Payment failed
+    EXPIRED // Checkout session expired
+    REQUIRES_ACTION // Stripe requires further user input
+    REFUNDED
+    CANCELLED
+}
+
+model Match {
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    userId       String   @db.ObjectId
+    user         User?    @relation(fields: [userId], references: [id])
+    opponentName String
+    eventName    String
+    matchDate    DateTime
+    finalScore   String
+    logNote      String
+    notes        String? // optional comment by player
+    // Relation for user-submitted videos (up to 5 clips)
+
+    // Uploaded by user
+    detailedSetVideos MatchDetailedSetVideo[]
+
+    // Cut down version of videos
+    shortSetVideos MatchShortSetVideo[]
+
+    aboutMe String?
+
+    // Video relations as one-to-many to avoid MongoDB unique constraint issues with null values
+    highlightVideoId String? @db.ObjectId
+    highlightVideo   Video?  @relation("MatchHighlightVideo", fields: [highlightVideoId], references: [id], onDelete: SetNull)
+
+    reviewVideoId String? @db.ObjectId // for the user's match footage before coach review
+    reviewVideo   Video?  @relation("MatchReviewVideo", fields: [reviewVideoId], references: [id], onDelete: SetNull)
+
+    isFullDetailsAnalysis Boolean @default(false)
+
+    // Optional training plan — user can buy later
+    trainingPlan   TrainingPlan? @relation
+    trainingPlanId String?       @db.ObjectId
+
+    // Purchase info
+    offerType       MatchOffer         @default(LOG)
+    upgradedToFull  Boolean            @default(false)
+    paymentStatus   MatchPaymentStatus @default(PENDING)
+    stripeSessionId String?
+
+    // New: optional purchase relation
+    purchase   Purchase? @relation("MatchPurchase")
+    purchaseId String?   @db.ObjectId
+
+    isPublished Boolean  @default(false)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
+// Join model for the many-to-many relationship between Match and Video (Detailed Set Videos)
+model MatchDetailedSetVideo {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    match     Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+    matchId   String   @db.ObjectId
+    video     Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+    videoId   String   @db.ObjectId
+    setNumber Int      @default(1) // 1-based index for the set number
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([matchId, setNumber])
+    @@index([videoId])
+}
+
+// Join model for the many-to-many relationship between Match and Video (Short Set Videos)
+model MatchShortSetVideo {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    match     Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+    matchId   String   @db.ObjectId
+    video     Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+    videoId   String   @db.ObjectId
+    setNumber Int      @default(1) // 1-based index for the set number
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([matchId, setNumber])
+    @@index([videoId])
+}

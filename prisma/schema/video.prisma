@@ -1,0 +1,54 @@
+// Enum for video processing status
+enum VideoStatus {
+    UPLOADED // Initial state when uploaded to R2
+    PROCESSING // Being processed for HLS streaming
+    READY // Processed and ready for streaming
+    ERROR // Processing failed
+}
+
+// Enum for encoding status
+enum EncodingStatus {
+    PENDING // Not yet started encoding
+    PROCESSING // Currently being encoded
+    COMPLETED // Successfully encoded
+    FAILED // Encoding failed
+}
+
+// No video type enum needed
+
+// Video model for storing video metadata
+model Video {
+    id               String  @id @default(auto()) @map("_id") @db.ObjectId
+    fileKey          String // The key/path in R2 bucket
+    publicUrl        String // Public URL to access the video
+    originalFilename String? // Original filename uploaded by user
+    fileSize         Int? // Size in bytes
+    mimeType         String? // e.g., video/mp4
+    duration         Int? // Duration in seconds
+
+    // Processing status
+    status VideoStatus @default(UPLOADED)
+
+    // HLS streaming info (after processing)
+    streamingUrl String? // URL to the HLS manifest
+    thumbnailUrl String? // URL to the generated thumbnail
+
+    // Encoding information
+    encodingStatus EncodingStatus? @default(PENDING) // Current encoding status
+    encodedAt      DateTime? // When encoding was completed
+
+    // Metadata
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // Relations to TrainingExercise
+    asMainVideo      TrainingExercise[] @relation("MainVideo")
+    asPreviewVideo   TrainingExercise[] @relation("PreviewVideo")
+    asIntroPackVideo TrainingPack[]     @relation("IntroVideo")
+
+    // Relations to Match - changed to one-to-many to avoid unique constraint issues
+    asMatchHighlightVideo Match[]                 @relation("MatchHighlightVideo")
+    asMatchReviewVideo    Match[]                 @relation("MatchReviewVideo")
+    matchSetVideos        MatchDetailedSetVideo[]
+    matchShortSetVideos   MatchShortSetVideo[]
+}

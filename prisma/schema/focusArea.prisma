@@ -1,0 +1,5 @@
+model FocusArea {
+    id        String                  @id @default(auto()) @map("_id") @db.ObjectId
+    name      String                  @unique
+    exercises TrainingExerciseFocus[] // Join table
+}

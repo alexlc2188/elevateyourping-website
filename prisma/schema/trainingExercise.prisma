@@ -1,0 +1,37 @@
+model TrainingExercise {
+    id                  String       @id @default(auto()) @map("_id") @db.ObjectId
+    label               String
+    duration            Int          @default(300) // in seconds
+    practiceInstruction String
+    // Keep original fields for backward compatibility
+    thumbnail           String?
+    type                TrainingType
+
+    repsInstruction String? // from plan → e.g. "3 x 10"
+
+    status ExerciseStatus @default(DRAFT)
+
+    trainingPackLinks TrainingPackExercise[]
+    trainingPlanLinks TrainingPlanExercise[]
+
+    // Specific video relations
+    mainVideo   Video?  @relation("MainVideo", fields: [mainVideoId], references: [id])
+    mainVideoId String? @db.ObjectId
+
+    previewVideo   Video?  @relation("PreviewVideo", fields: [previewVideoId], references: [id])
+    previewVideoId String? @db.ObjectId
+
+    // options for filtering database queries
+    coachNotes     String?
+    intensityScore Int? // ✅ optional, 1–5
+    skillLevel     SkillLevel? // optional, to filter by skill level
+    tags           TrainingExerciseTag[]
+    focusAreas     TrainingExerciseFocus[]
+    entityState    EntityState             @default(CREATED)
+    createdAt      DateTime                @default(now())
+    updatedAt      DateTime                @updatedAt
+
+    // Use a compound index to ensure uniqueness only when the fields have values
+    @@index([mainVideoId], map: "mainVideoId_index")
+    @@index([previewVideoId], map: "previewVideoId_index")
+}

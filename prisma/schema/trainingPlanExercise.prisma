@@ -1,0 +1,10 @@
+model TrainingPlanExercise {
+  id                 String           @id @default(auto()) @map("_id") @db.ObjectId
+  trainingPlanId     String           @db.ObjectId
+  trainingExerciseId String           @db.ObjectId
+  position           Int              @default(0)
+  trainingPlan       TrainingPlan     @relation(fields: [trainingPlanId], references: [id], onDelete: Cascade)
+  trainingExercise   TrainingExercise @relation(fields: [trainingExerciseId], references: [id], onDelete: Cascade)
+
+  @@unique([trainingPlanId, trainingExerciseId])
+}

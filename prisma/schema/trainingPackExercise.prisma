@@ -1,0 +1,10 @@
+model TrainingPackExercise {
+  id                 String           @id @default(auto()) @map("_id") @db.ObjectId
+  trainingPackId     String           @db.ObjectId
+  trainingExerciseId String           @db.ObjectId
+  position           Int              @default(0)
+  trainingPack       TrainingPack     @relation(fields: [trainingPackId], references: [id], onDelete: Cascade)
+  trainingExercise   TrainingExercise @relation(fields: [trainingExerciseId], references: [id], onDelete: Cascade)
+
+  @@unique([trainingPackId, trainingExerciseId])
+}

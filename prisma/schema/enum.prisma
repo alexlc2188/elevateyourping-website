@@ -1,0 +1,51 @@
+enum UserRole {
+    USER
+    ADMIN
+    COACH
+    OWNER
+}
+
+enum MatchStatus {
+    PENDING
+    REVIEWED
+}
+
+enum ExerciseStatus {
+    DRAFT
+    PUBLISHED
+}
+
+enum TrainingType {
+    technique
+    rally
+    serve
+    return
+    footwork
+}
+
+enum MatchOffer {
+    LOG
+    REVIEW_ONLY
+    PLAN_ONLY
+    REVIEW_AND_PLAN
+}
+
+enum SkillLevel {
+    BEGINNER
+    INTERMEDIATE
+    ADVANCED
+}
+
+enum EntityState {
+    CREATED
+    DELETED
+}
+
+enum TrainingPackType {
+    technique
+    rally
+    serve
+    return
+    footwork
+    allInOne
+}

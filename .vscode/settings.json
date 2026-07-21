@@ -1,0 +1,19 @@
+{
+  "explorer.compactFolders": false,
+  "editor.formatOnSave": true,
+  "editor.wordWrap": "on",
+  "files.autoSave": "afterDelay",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "search.exclude": {
+    "**/android/.graddle": true,
+    "**/android/.idea": true,
+    "**/android/app/build": true
+  },
+  "javascript.updateImportsOnFileMove.enabled": "never",
+  "window.zoomLevel": 0,
+  "terminal.integrated.fontSize": 15,
+  "eslint.enable": false,
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
+}

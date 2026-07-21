@@ -1,0 +1,19 @@
+model User {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  role          UserRole  @default(USER)
+
+  accounts               Account[]
+  sessions               Session[]
+  matches                Match[]
+  selectedTrainingPlanId String?                     @db.ObjectId
+  selectedTrainingPackId String?                     @db.ObjectId @default("6857760c9cbdfe67f389d58d")
+  trainingPlanSelections UserTrainingPlanSelection[]
+  trainingPackSelections UserTrainingPackSelection[]
+
+  /// ✅ New relation
+  purchases              Purchase[]                  @relation("UserPurchases")
+}

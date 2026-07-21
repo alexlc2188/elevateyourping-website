@@ -1,0 +1,28 @@
+enum ProductCategory {
+    MATCH
+    LIBRARY
+    SUBSCRIPTION
+    OTHER
+}
+
+model Product {
+    id               String          @id @default(auto()) @map("_id") @db.ObjectId
+    name             String
+    slug             String          @unique // e.g. "match-review", "training-pack"
+    description      String
+    stripePriceId    String          @unique // e.g. "price_1RO... from Stripe
+    amount           Int // in cents
+    currency         String // e.g. "usd", "eur"
+    active           Boolean         @default(true)
+    category         ProductCategory
+    // Optional discriminator for match-related products
+    matchOffer       MatchOffer?
+    highlightText    String? // 👈 e.g. "Save 30%"
+    highlightColor   String? // optional: "green", "yellow", "red"
+    limitedTimeOffer Boolean         @default(false) // Show urgency badge
+    weeklyLimit      Int? // Optional: e.g. 10 = max 10 per week
+    weeklySoldCount  Int             @default(0) // Track how many sold this week
+    availableUntil   DateTime? // Optional: end date for offer
+    createdAt        DateTime        @default(now())
+    updatedAt        DateTime        @updatedAt
+}

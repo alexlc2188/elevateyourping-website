@@ -1,0 +1,8 @@
+model TrainingExerciseFocus {
+    id                 String @id @default(auto()) @map("_id") @db.ObjectId
+    trainingExerciseId String @db.ObjectId
+    focusAreaId        String @db.ObjectId
+
+    trainingExercise TrainingExercise @relation(fields: [trainingExerciseId], references: [id])
+    focusArea        FocusArea        @relation(fields: [focusAreaId], references: [id])
+}

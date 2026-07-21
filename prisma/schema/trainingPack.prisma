@@ -1,0 +1,20 @@
+// A BUNDLE OF EXERCISES FOR THE SUBSCRIPTION
+
+model TrainingPack {
+    id                      String                      @id @default(auto()) @map("_id") @db.ObjectId
+    title                   String
+    description             String?
+    imageUrl                String?
+    level                   SkillLevel?
+    isPublished             Boolean                     @default(false)
+    isFree                  Boolean                     @default(false)
+    exercises               TrainingPackExercise[]
+    trainingPackType        TrainingPackType?
+    // Specific video relations
+    introVideo              Video?                      @relation("IntroVideo", fields: [introVideoId], references: [id])
+    introVideoId            String?                     @db.ObjectId
+    userSelections          UserTrainingPackSelection[] // Metadata
+    createdAt               DateTime                    @default(now())
+    updatedAt               DateTime                    @updatedAt
+    shouldDisplayComingSoon Boolean                     @default(false)
+}

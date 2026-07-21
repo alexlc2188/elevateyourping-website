@@ -1,0 +1,22 @@
+enum PurchaseType {
+    MATCH_REVIEW
+    LIBRARY_SUBSCRIPTION
+}
+
+model Purchase {
+    id                    String       @id @default(auto()) @map("_id") @db.ObjectId
+    type                  PurchaseType // 👈 "MATCH_REVIEW" or "LIBRARY_SUBSCRIPTION"
+    stripeSessionId       String       @unique
+    stripePaymentIntentId String       @unique
+    // productSlug           String
+    priceCents            Int
+    currency              String
+    createdAt             DateTime     @default(now())
+
+    // Optional relation to match (only for MATCH_REVIEW)
+    matchId String? @unique @db.ObjectId
+    match   Match?  @relation("MatchPurchase", fields: [matchId], references: [id], onDelete: SetNull)
+
+    userId String @db.ObjectId
+    user   User   @relation("UserPurchases", fields: [userId], references: [id])
+}

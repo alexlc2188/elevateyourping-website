@@ -1,0 +1,21 @@
+model UserTrainingPlanSelection {
+    id             String @id @default(auto()) @map("_id") @db.ObjectId
+    userId         String @db.ObjectId
+    trainingPlanId String @db.ObjectId
+
+    user         User         @relation(fields: [userId], references: [id])
+    trainingPlan TrainingPlan @relation(fields: [trainingPlanId], references: [id])
+
+    @@unique([userId, trainingPlanId])
+}
+
+model UserTrainingPackSelection {
+    id             String @id @default(auto()) @map("_id") @db.ObjectId
+    userId         String @db.ObjectId
+    trainingPackId String @db.ObjectId
+
+    user         User         @relation(fields: [userId], references: [id])
+    trainingPack TrainingPack @relation(fields: [trainingPackId], references: [id])
+
+    @@unique([userId, trainingPackId])
+}

@@ -1,0 +1,12 @@
+// SPECIFIC TRAINING CREATED FOR A MATCH 
+
+model TrainingPlan {
+    id             String                  @id @default(auto()) @map("_id") @db.ObjectId
+    matchId        String                  @unique @db.ObjectId
+    match          Match                   @relation(fields: [matchId], references: [id])
+    title          String
+    exercises      TrainingPlanExercise[]
+    userSelections UserTrainingPlanSelection[]    // Metadata
+    createdAt      DateTime                @default(now())
+    updatedAt      DateTime                @updatedAt
+}

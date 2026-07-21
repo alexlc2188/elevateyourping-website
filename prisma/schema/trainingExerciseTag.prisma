@@ -1,0 +1,8 @@
+model TrainingExerciseTag {
+  id                 String @id @default(auto()) @map("_id") @db.ObjectId
+  trainingExerciseId String @db.ObjectId
+  tagId              String @db.ObjectId
+
+  trainingExercise TrainingExercise @relation(fields: [trainingExerciseId], references: [id])
+  tag              Tag              @relation(fields: [tagId], references: [id])
+}
